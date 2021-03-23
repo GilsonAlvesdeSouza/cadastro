@@ -27,7 +27,7 @@
                                 @if($clientes)
                                 @foreach($clientes as $cliente)
                                     <tr>
-                                        <td>{{ $cliente->nome }}</td>
+                                        <td><a href="{{ route('admin.clientes.show', $cliente->codigo) }}">{{ $cliente->nome }}</a></td>
                                         <td>{{ $cliente->cidade->cidade }}</td>
                                         <td style="width: 13em">
                                             <a href="{{ route('admin.clientes.edit',  $cliente->codigo) }}" class="btn btn-info" style="margin-right: 1em">Editar</a>

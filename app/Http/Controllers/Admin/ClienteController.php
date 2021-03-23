@@ -75,10 +75,9 @@ class ClienteController extends Controller
      */
     public function show($clientes)
     {
+        $cliente = Cliente::Where('codigo', $clientes)->first();
 
-        $cliente = Cliente::find($clientes)->first();
-
-        $cidade = $cliente->cidade()->first();
+        return view('admin.cliente.show', ['cliente' => $cliente]);
     }
 
     /**
