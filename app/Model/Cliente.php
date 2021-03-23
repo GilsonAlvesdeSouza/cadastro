@@ -16,4 +16,11 @@ class Cliente extends Model
     {
         return $this->belongsTo(Cidade::class, 'codigoCidade', 'codigo');
     }
+
+    public function saveCidade($nome)
+    {
+        $cidade = Cidade::where('codigo', $this->cidade->codigo)->first();
+        $cidade->cidade = $nome;
+        $cidade->save();
+    }
 }

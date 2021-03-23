@@ -4,8 +4,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header"><a href="{{ route('admin.clientes.create') }}">Cadastrar</a></div>
+                <div class="card text-white bg-secondary mb-3">
+                    <div class="card-header">Listagem Cliente</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -15,11 +15,29 @@
                         @endif
 
                         <h2>{{ __('Lista dos Usuários') }}</h2>
-                        @if($clientes)
-                            @foreach($clientes as $cliente)
-                                 {{ $cliente->nome }} | {{ $cliente->codigo }}
-                            @endforeach
-                        @endif
+                            <table class="table table-bordered table-dark">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col">Cidade</th>
+                                    <th scope="col">Opções</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if($clientes)
+                                @foreach($clientes as $cliente)
+                                    <tr>
+                                        <td>{{ $cliente->nome }}</td>
+                                        <td>{{ $cliente->cidade->cidade }}</td>
+                                        <td style="width: 13em">
+                                            <a href="{{ route('admin.clientes.edit',  $cliente->codigo) }}" class="btn btn-info" style="margin-right: 1em">Editar</a>
+                                            <button class="btn btn-danger">Excluir</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                @endif
+                                </tbody>
+                            </table>
                     </div>
                 </div>
             </div>

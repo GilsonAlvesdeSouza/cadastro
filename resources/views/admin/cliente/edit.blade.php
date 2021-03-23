@@ -18,22 +18,23 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('admin.clientes.store') }}" method="post">
+                        <form action="{{ route('admin.clientes.update', $cliente->codigo) }}" method="post">
                             @csrf
+                            @method('put')
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="name">Nome</label>
                                     <input type="text" name="nome" class="form-control" id="name" placeholder="Nome Completo"
-                                    value="{{ @old('nome') }}">
+                                    value="{{ @old('nome') ?? $cliente->nome }}">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="cidade">Cidade</label>
                                     <input type="Text" class="form-control" name="cidade" id="cidade"
-                                           placeholder="Cidade" value="{{ old('cidade') }}">
+                                           placeholder="Cidade" value="{{ old('cidade') ?? $cliente->cidade->cidade }}">
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                            <button type="submit" class="btn btn-primary">Editar</button>
                         </form>
 
                     </div>
