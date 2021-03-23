@@ -57,6 +57,8 @@ class ClienteController extends Controller
 
                 $cliente['codigoCidade'] = $cidade->codigo;
 
+                Cliente::create($cliente);
+
             });
 
         } catch (\Exception $e) {
@@ -121,11 +123,13 @@ class ClienteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Model\Cliente $clientes
+     * @param $clientes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cliente $clientes)
+    public function destroy($cliente)
     {
-        //
+        $cliente = Cliente::where('codigo', $cliente);
+        $cliente->delete();
+        return redirect()->route('admin.clientes.index');
     }
 }

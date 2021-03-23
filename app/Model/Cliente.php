@@ -3,13 +3,16 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use LaraDev\Support\Utils;
 
 class Cliente extends Model
 {
     protected $primaryKey = 'codigo';
     protected $fillable = [
         'nome',
-        'codigoCidade'
+        'codigoCidade',
+        'created_at',
+        'update_at'
     ];
 
     public function cidade()
@@ -23,4 +26,5 @@ class Cliente extends Model
         $cidade->cidade = $nome;
         $cidade->save();
     }
+
 }

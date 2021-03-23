@@ -15,29 +15,38 @@
                         @endif
 
                         <h2>{{ __('Lista dos Usuários') }}</h2>
-                            <table class="table table-bordered table-dark">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Cliente</th>
-                                    <th scope="col">Cidade</th>
-                                    <th scope="col">Opções</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @if($clientes)
+                        <table class="table table-bordered table-dark">
+                            <thead>
+                            <tr>
+                                <th scope="col">Cliente</th>
+                                <th scope="col">Cidade</th>
+                                <th scope="col">Opções</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if($clientes)
                                 @foreach($clientes as $cliente)
                                     <tr>
-                                        <td><a href="{{ route('admin.clientes.show', $cliente->codigo) }}">{{ $cliente->nome }}</a></td>
+                                        <td>
+                                            <a href="{{ route('admin.clientes.show', $cliente->codigo) }}">{{ $cliente->nome }}</a>
+                                        </td>
                                         <td>{{ $cliente->cidade->cidade }}</td>
                                         <td style="width: 13em">
-                                            <a href="{{ route('admin.clientes.edit',  $cliente->codigo) }}" class="btn btn-info" style="margin-right: 1em">Editar</a>
-                                            <button class="btn btn-danger">Excluir</button>
+
+                                            <form action="{{ route('admin.clientes.destroy', $cliente->codigo) }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <a href="{{ route('admin.clientes.edit',  $cliente->codigo) }}"
+                                                   class="btn btn-info" style="margin-right: 1em">Editar</a>
+                                                <button class="btn btn-danger">Excluir</button>
+                                            </form>
+
                                         </td>
                                     </tr>
                                 @endforeach
-                                @endif
-                                </tbody>
-                            </table>
+                            @endif
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
