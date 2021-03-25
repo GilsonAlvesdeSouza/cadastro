@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card text-white bg-secondary mb-3">
-                    <div class="card-header"> <h2>{{ __('Listagem de clientes') }}</h2></div>
+                    <div class="card-header"><h2>{{ __('Lixeira') }}</h2></div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -18,7 +18,6 @@
                             <thead>
                             <tr>
                                 <th scope="col">Cliente</th>
-                                <th scope="col">Cidade</th>
                                 <th scope="col">Opções</th>
                             </tr>
                             </thead>
@@ -26,18 +25,13 @@
                             @if($clientes)
                                 @foreach($clientes as $cliente)
                                     <tr>
-                                        <td>
-                                            <a href="{{ route('admin.clientes.show', $cliente->codigo) }}">{{ $cliente->nome }}</a>
-                                        </td>
-                                        <td>{{ $cliente->cidade->cidade }}</td>
-                                        <td style="width: 13em">
-
-                                            <a href="{{ route('admin.clientes.edit',  $cliente->codigo) }}"
-                                               class="btn btn-info" style="margin-right: 1em">Editar</a>
+                                        <td>{{ $cliente->nome }} </td>
+                                        <td style="width: 14em">
+                                            <a href="{{ route('admin.clientes.restore',  $cliente->codigo) }}"
+                                               class="btn btn-info" style="margin-right: 1em">Restaurar</a>
                                             <button class="btn btn-danger btn-route-excluir"
                                                     value="{{ $cliente->codigo }}">Excluir
                                             </button>
-
                                         </td>
                                     </tr>
                                 @endforeach
@@ -77,19 +71,19 @@
 
                 Swal.fire({
                     title: 'Você tem certeza?',
-                    text: "Mover para a lixeira!",
+                    text: "Você não poderá reverter isso!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sim!',
+                    confirmButtonText: 'Sim, excluir!',
                     cancelButtonText: 'Cancelar',
                 }).then((result) => {
                     if (result.isConfirmed) {
 
                         $.ajax({
                             type: 'DELETE',
-                            url: '/cadastro/public/admin/clientes/' + id,
+                            url: '/cadastro/public/admin/clientes/' + id + '/force-delete',
                             success: function (response) {
                                 if (response.msg) {
                                     Swal.fire(

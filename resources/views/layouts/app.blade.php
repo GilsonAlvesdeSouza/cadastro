@@ -38,7 +38,7 @@
             <a class="navbar-brand" href="{{ route('admin.clientes.create') }}">
                 {{ 'Pesquisar' }}
             </a>
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{ route('admin.clientes.trashed') }}">
                 {{ 'Lixeira' }}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

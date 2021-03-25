@@ -135,11 +135,68 @@ class ClienteController extends Controller
             DB::transaction(function () use ($cliente) {
                 $clienteExcluir = Cliente::where('codigo', $cliente)->first();
                 $cidade = Cidade::where('codigo', $clienteExcluir->codigoCidade)->first();
+                $clienteExcluir->delete();
                 $cidade->delete();
             });
         } catch (\Exception $e) {
-            return response()->json(['status' => 'Cliente excluído com sucesso..' + e]);
+            return response()->json(['msg' => 'Ocorreu um erro ao excluir o cliente...' + e]);
         }
-        return response()->json(['status' => 'Cliente excluído com sucesso..']);
+        return response()->json(['msg' => 'Cliente excluído com sucesso..']);
+    }
+
+    /**
+     * Method for listing items in the trash
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function trashed()
+    {
+        $clientes = Cliente::onlyTrashed()->paginate();
+
+        return view('admin.cliente.trashed', [
+            'clientes' => $clientes,
+        ]);
+    }
+
+    /**
+     * Method to restore item from trash
+     *
+     * @param $cliente
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore($cliente)
+    {
+        $cliente = Cliente::onlyTrashed()->where('codigo', $cliente)->first();
+        $cidade = Cidade::onlyTrashed()->where('codigo', $cliente->codigoCidade)->first();
+
+        if ($cliente->trashed() && $cidade->trashed()) {
+            $cliente->restore();
+            $cidade->restore();
+        }
+
+        return redirect()->route('admin.clientes.trashed');
+    }
+
+    /**
+     * Method for deleting item from trash
+     *
+     * @param $cliente
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function forceDelete($cliente)
+    {
+        $cliente = Cliente::onlyTrashed()->where('codigo', $cliente)->first();
+        $cidade = Cidade::onlyTrashed()->where('codigo', $cliente->codigoCidade)->first();
+
+        if ($cliente->trashed() && $cidade->trashed()) {
+            try {
+                DB::transaction(function () use ($cidade) {
+                    $cidade->forceDelete();
+                });
+            } catch (\Exception $e) {
+                return response()->json(['msg' => 'Ocorreu um erro ao excluir o cliente...' + e]);
+            }
+        return response()->json(['msg' => 'Cliente excluído com sucesso..']);
+        }
     }
 }

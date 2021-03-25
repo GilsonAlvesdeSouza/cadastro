@@ -3,11 +3,15 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use LaraDev\Support\Utils;
 
 class Cliente extends Model
 {
+    use SoftDeletes;
+
     protected $primaryKey = 'codigo';
+
     protected $fillable = [
         'nome',
         'codigoCidade',
