@@ -19,9 +19,12 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::all();
+//        $clientes = DB::table('clientes')->paginate(1);
+
+        $clientes = Cliente::orderBy('nome', 'asc')->paginate(5);
         return view('admin.cliente.list', [
             'clientes' => $clientes,
+//            'pag' => $pag
         ]);
     }
 
@@ -123,13 +126,20 @@ class ClienteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $clientes
+     * @param $cliente
      * @return \Illuminate\Http\Response
      */
     public function destroy($cliente)
     {
-        $cliente = Cliente::where('codigo', $cliente);
-        $cliente->delete();
-        return redirect()->route('admin.clientes.index');
+        try {
+            DB::transaction(function () use ($cliente) {
+                $clienteExcluir = Cliente::where('codigo', $cliente)->first();
+                $cidade = Cidade::where('codigo', $clienteExcluir->codigoCidade)->first();
+                $cidade->delete();
+            });
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'Cliente excluído com sucesso..' + e]);
+        }
+        return response()->json(['status' => 'Cliente excluído com sucesso..']);
     }
 }

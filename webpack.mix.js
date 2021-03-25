@@ -12,4 +12,14 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css')
+
+    .scripts([
+        'resources/js/jquery.min.js'
+    ], 'public/js/jquery.js')
+
+    .scripts([
+        'resources/js/sweetalert2.all.min.js'
+    ], 'public/js/sweetalert2.all.min.js')
+
+.copyDirectory('resources/img', 'public/img')

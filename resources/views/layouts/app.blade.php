@@ -89,10 +89,15 @@
             </div>
         </div>
     </nav>
-
     <main class="py-4">
         @yield('content')
     </main>
 </div>
+<script src="{{ url(mix('js/jquery.js')) }}"></script>
+<script src="{{ url(mix('js/sweetalert2.all.min.js')) }}"></script>
+
+    @hasSection('js')
+        @yield('js')
+    @endif
 </body>
 </html>
