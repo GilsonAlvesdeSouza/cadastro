@@ -33,8 +33,8 @@
                                            placeholder="Cidade" value="{{ old('cidade') ?? $cliente->cidade->cidade }}">
                                 </div>
                             </div>
-
                             <button type="submit" class="btn btn-primary">Editar</button>
+                            <a class="btn btn-warning" href="{{ route('admin.clientes.index') }}" style="margin-left: 10px">Listar todos</a>
                         </form>
 
                     </div>

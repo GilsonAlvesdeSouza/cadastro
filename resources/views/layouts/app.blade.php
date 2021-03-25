@@ -35,9 +35,6 @@
             <a class="navbar-brand" href="{{ route('admin.clientes.create') }}">
                 {{ 'Cadastrar' }}
             </a>
-            <a class="navbar-brand" href="{{ route('admin.clientes.create') }}">
-                {{ 'Pesquisar' }}
-            </a>
             <a class="navbar-brand" href="{{ route('admin.clientes.trashed') }}">
                 {{ 'Lixeira' }}
             </a>
@@ -96,8 +93,8 @@
 <script src="{{ url(mix('js/jquery.js')) }}"></script>
 <script src="{{ url(mix('js/sweetalert2.all.min.js')) }}"></script>
 
-    @hasSection('js')
-        @yield('js')
-    @endif
+@hasSection('js')
+    @yield('js')
+@endif
 </body>
 </html>

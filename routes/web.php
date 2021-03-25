@@ -24,15 +24,13 @@ Route::group(['middleware' => 'web'], function () {
 
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], function () {
-    Route::resource('cidades', 'CidadeController');
     /*Rotas Protegidas*/
-    Route::group(['middleware' => ['web','auth']], function () {
+    Route::group(['middleware' => ['auth']], function () {
+        Route::any('clientes/search', 'ClienteController@search')->name('clientes.search');
         Route::get('clientes/trashed', 'ClienteController@trashed')->name('clientes.trashed');
         Route::get('clientes/{clinte}/restore', 'ClienteController@restore')->name('clientes.restore');
         Route::delete('clientes/{clientes}/force-delete', 'ClienteController@forceDelete')->name('clientes.force-delete');
         Route::resource('clientes', 'ClienteController');
     });
-
-
 });
 

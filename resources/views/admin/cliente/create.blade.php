@@ -33,7 +33,8 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <a class="btn btn-warning" href="{{ route('admin.clientes.index') }}" style="margin-left: 10px">Listar todos</a>
                         </form>
 
                     </div>

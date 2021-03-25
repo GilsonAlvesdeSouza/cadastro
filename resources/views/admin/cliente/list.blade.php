@@ -5,14 +5,39 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card text-white bg-secondary mb-3">
-                    <div class="card-header"> <h2>{{ __('Listagem de clientes') }}</h2></div>
-
+                    <div class="card-header"><h2>{{ __('Listagem de clientes') }}</h2></div>
                     <div class="card-body">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
                             </div>
                         @endif
+                        <form action="{{ route('admin.clientes.search') }}" method="post" style="margin-bottom: 20px">
+                            @csrf
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="name">Nome</label>
+                                    <input type="text" name="nome" class="form-control" id="name"
+                                           placeholder="Nome Cliente"
+                                           value="{{ @old('nome') }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="cidade">Cidade</label>
+                                    <input type="Text" class="form-control" name="cidade" id="cidade"
+                                           placeholder="Cidade" value="{{ old('cidade') }}">
+                                </div>
+                            </div>
+
+                            <div>
+                                <button type="submit" class="btn btn-warning">Pesquisar</button>
+                                <a class="btn btn-warning" href="{{ route('admin.clientes.index') }}"
+                                   style="margin-left: 10px">Listar todos</a>
+                            </div>
+                        </form>
+                        <hr>
+                        <div>
+                            <a class="btn btn-primary" href="{{ route('admin.clientes.create') }}">Cadastrar</a>
+                        </div>
 
                         <table class="table table-bordered table-dark">
                             <thead>
@@ -29,7 +54,11 @@
                                         <td>
                                             <a href="{{ route('admin.clientes.show', $cliente->codigo) }}">{{ $cliente->nome }}</a>
                                         </td>
-                                        <td>{{ $cliente->cidade->cidade }}</td>
+                                        @if($list === 1)
+                                            <td>{{ $cliente->cidade }}</td>
+                                        @else
+                                            <td>{{ $cliente->cidade->cidade }}</td>
+                                        @endif
                                         <td style="width: 13em">
 
                                             <a href="{{ route('admin.clientes.edit',  $cliente->codigo) }}"

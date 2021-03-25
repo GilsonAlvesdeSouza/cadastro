@@ -19,12 +19,11 @@ class ClienteController extends Controller
      */
     public function index()
     {
-//        $clientes = DB::table('clientes')->paginate(1);
-
         $clientes = Cliente::orderBy('nome', 'asc')->paginate(5);
+
         return view('admin.cliente.list', [
             'clientes' => $clientes,
-//            'pag' => $pag
+            'list' => 0,
         ]);
     }
 
@@ -196,7 +195,24 @@ class ClienteController extends Controller
             } catch (\Exception $e) {
                 return response()->json(['msg' => 'Ocorreu um erro ao excluir o cliente...' + e]);
             }
-        return response()->json(['msg' => 'Cliente excluído com sucesso..']);
+            return response()->json(['msg' => 'Cliente excluído com sucesso..']);
         }
+    }
+
+    public function search(Request $request)
+    {
+        $clientes = Cliente::
+        join('cidades', 'cidades.codigo', '=', 'clientes.codigoCidade')
+            ->select('*')
+            ->where('clientes.nome', 'LIKE', "%{$request->nome}%")
+            ->where('cidades.cidade', 'LIKE', "%{$request->cidade}%")
+            ->orderBy('clientes.nome')
+            ->paginate(5);
+
+        return view('admin.cliente.list', [
+            'clientes' => $clientes,
+            'list' => 1,
+        ]);
+
     }
 }
